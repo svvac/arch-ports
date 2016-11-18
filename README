@@ -22,11 +22,19 @@ convenience.
 
 . OPERATION
 
+There's a makefile designed to ease the maintenance process.
+
+    $ make checksum
+    $ make srcinfo
+    $ make aur-push
+
+. PLUMBING
+
 The various packages are maintained as a collection of Git subtrees [2] grouped
 in folders by category.
 
 
-Creation:
+Creation (the remote part is optional):
 
     $ git remote add aur-my-package ssh://aur@aur.archlinux.org/my-package.git
     $ git subtree add --prefix=group/my-package aur-my-package master
