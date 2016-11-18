@@ -1,0 +1,47 @@
+
+        _____                .__      __________              __
+       /  _  \_______   ____ |  |__   \______   \____________/  |_  ______
+      /  /_\  \_  __ \_/ ___\|  |  \   |     ___/  _ \_  __ \   __\/  ___/
+     /    |    \  | \/\  \___|   Y  \  |    |  (  <_> )  | \/|  |  \___ \
+     \____|__  /__|    \___  >___|  /  |____|   \____/|__|   |__| /____  >
+             \/            \/     \/                                   \/
+
+                          ArchLinux software ports
+
+
+
+. ABOUT
+
+This is a collection of PKGBUILD files to build various software on ArchLinux.
+Most are contributed to the AUR [1], but they are maintained here for
+convenience.
+
+    [1]: https://aur.archlinux.org/
+
+
+
+. OPERATION
+
+The various packages are maintained as a collection of Git subtrees [2] grouped
+in folders by category.
+
+
+Creation:
+
+    $ git remote add aur-my-package ssh://aur@aur.archlinux.org/my-package.git
+    $ git subtree add --prefix=group/my-package aur-my-package master
+
+
+Push changes: Do your work and commit as usual. Then:
+
+    $ git subtree push --prefix=group/my-package aur-my-package <branch>
+
+
+Pull changes from upstream:
+
+    $ git subtree pull --prefix=group/my-package aur-my-package master
+
+You could throw in the `--squash` option too to only get a single commit.
+
+
+    [2]: https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt
