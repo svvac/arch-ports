@@ -1,5 +1,11 @@
-PKG := $(filter %/,$(wildcard ./*/*/))
+rootdir := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/
+PKG := $(filter %/,$(wildcard $(rootdir)*/*/))
 AUR_BRANCH=master
+REPODIR=_repository
+
+
+$(REPODIR):
+	mkdir -p "$@"
 
 %/.aur: %/.SRCINFO
 	touch "$@"
@@ -12,6 +18,10 @@ AUR_BRANCH=master
 	updpkgsums "$(@D)/PKGBUILD"
 	touch "$@"
 
+%/.build: %/PKGBUILD
+	cd "$(@D)" ; PKGDEST="$(rootdir)$(REPODIR)" makepkg -srfCc
+	touch "$@"
+
 %/PKGBUILD:
 
 %/.SRCINFO: %/PKGBUILD %/.checksum
@@ -21,6 +31,10 @@ srcinfo: $(addsuffix .SRCINFO, $(PKG))
 checksum: $(addsuffix .checksum, $(PKG))
 aur: $(addsuffix .aur, $(PKG))
 aur-push: $(addsuffix .aur-push, $(PKG))
+repository: $(REPODIR) $(addsuffix .build, $(PKG))
+clean:
+	git clean -xdfe '$(REPODIR)' -- .
 
 .PRECIOUS: %/PKGBUILD
-.PHONY: aur srcinfo checksum aur-push
+.NOTPARALLEL: *.aur-push
+.PHONY: aur srcinfo checksum aur-push clean

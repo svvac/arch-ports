@@ -27,6 +27,8 @@ There's a makefile designed to ease the maintenance process.
     $ make checksum
     $ make srcinfo
     $ make aur-push
+    $ make repository
+    $ make clean
 
 . PLUMBING
 
